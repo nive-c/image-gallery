@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Light Image Gallery</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0; padding: 0;
+      background: linear-gradient(135deg, #e0c3fc, #8ec5fc, #f9c5d1);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column; align-items: center;
+      color: #333;
+    }
+    h1 {
+      margin: 20px 0; font-size: 2.5rem;
+      color: #4c1d95; text-align: center;
+    }
+    .filters {
+      margin-bottom: 15px; display: flex; gap: 10px;
+    }
+    .filters button {
+      padding: 8px 16px; border: none;
+      border-radius: 8px;
+      cursor: pointer; font-size: 1rem;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s, background-color 0.2s;
+    }
+    .filters button.active {
+      background-color: #e0c3fc; transform: scale(1.10); color: #4c1d95;
+    }
+    .filters button:hover {
+      background-color: #f3e8ff; transform: scale(1.05);
+    }
+    .gallery {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px; padding: 10px;
+      width: 95%; max-width: 1200px;
+    }
+    .gallery .gallery-item {
+    }
+    .gallery img {
+      width: 100%; border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .gallery img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    .lightbox {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex; justify-content: center; align-items: center;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.3s;
+      z-index: 1000; flex-direction: column;
+    }
+    .lightbox.active {
+      opacity: 1; visibility: visible;
+    }
+    .lightbox img {
+      max-width: 90%; max-height: 80%;
+      border-radius: 12px;
+    }
+    .lightbox span#closeBtn {
+      position: absolute; top: 20px; right: 30px;
+      font-size: 2rem; color: #fff; cursor: pointer;
+    }
+    #caption {
+      color: #fff; text-align: center; margin-top: 12px; font-size: 1.15rem;
+      min-height: 24px;
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      #caption { font-size: 1rem;}
+    }
+  </style>
+</head>
+<body>
+  <h1>Image Gallery</h1>
+  
+  <!-- Category Filters -->
+  <div class="filters" id="filters">
+    <button onclick="filterGallery('all')" class="active">All</button>
+    <button onclick="filterGallery('abstract')">Abstract</button>
+    <button onclick="filterGallery('nature')">Nature</button>
+    <button onclick="filterGallery('urban')">Urban</button>
+  </div>
+  
+  <div class="gallery" id="gallery">
+    
+    <div class="gallery-item nature">
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"
+           alt="Sunset over landscape">
+    </div>
+    <div class="gallery-item abstract">
+      <img src="https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?auto=format&fit=crop&w=800&q=80"
+           alt="Sunlit silhouette">
+    </div>
+    <div class="gallery-item nature">
+      <img src="https://images.unsplash.com/photo-1444065381814-865dc9da92c0?auto=format&fit=crop&w=800&q=80"
+           alt="Mountain landscape">
+    </div>
+    <div class="gallery-item nature">
+      <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=800&q=80"
+           alt="Plant">
+    </div>
+    <div class="gallery-item abstract">
+      <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80"
+           alt="Space">
+    </div>
+    <div class="gallery-item urban">
+      <img src="https://images.unsplash.com/photo-1416339306562-f3d12fefd36f?auto=format&fit=crop&w=800&q=80"
+           alt="Home">
+    </div>
+
+    
+    <div class="gallery-item abstract">
+      <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=800&q=80"
+           alt="Bokeh portrait">
+    </div>
+    <div class="gallery-item abstract">
+      <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=800&q=80"
+           alt="Sky gradient">
+    </div>
+    <div class="gallery-item abstract">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy1LKca07VWT46RHlMnyy1R62N_ta_pHenJw&s"
+           alt="Pink swirl abstract">
+    </div>
+    <div class="gallery-item abstract">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq4cvEQoO9kU7BFQ4LcGPwqh0QBA0sglEwvQ&s"
+           alt="Purple abstract paint">
+    </div>
+    <div class="gallery-item abstract">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPZYJVvZJsrXcYuHXIcQlnvVGBW1qgX3MXnQ&s"
+           alt="Cloud patterns">
+    </div>
+
+    
+    <div class="gallery-item urban">
+      <img src="https://images.unsplash.com/photo-1593642532871-8b12e02d091c?auto=format&fit=crop&w=800&q=80"
+           alt="Neon workspace">
+    </div>
+    <div class="gallery-item urban">
+      <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?auto=format&fit=crop&w=800&q=80"
+           alt="Alone">
+    </div>
+    <div class="gallery-item urban">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYhqN4D6j0oxaPXnlPCfkX5pC_xHI5TzNPqw&s"   
+    alt="Flower in urban">
+    </div>
+    <div class="gallery-item nature">
+      <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&q=80"
+           alt="Wooden house">
+    </div>
+    <div class="gallery-item nature">
+      <img src="https://images.unsplash.com/photo-1454023492550-5696f8ff10e1?auto=format&fit=crop&w=800&q=80"
+           alt="Tiger">
+    </div>
+  </div>
+  <div class="lightbox" id="lightbox">
+    <span id="closeBtn">&times;</span>
+    <img src="" alt="Preview">
+    <div id="caption"></div>
+  </div>
+  <script>
+    const gallery = document.getElementById('gallery');
+    const lightbox = document.getElementById('lightbox');
+    const filtersBar = document.getElementById('filters');
+    const lightboxImg = lightbox.querySelector('img');
+    const closeBtn = document.getElementById('closeBtn');
+    const captionElem = document.getElementById('caption');
+    let currentIndex = 0;
+    let activeCategory = 'all';
+
+    // Filter by category - Show only target
+    function filterGallery(category) {
+      activeCategory = category;
+      const filterBtns = document.querySelectorAll('.filters button');
+      filterBtns.forEach(btn => btn.classList.remove('active'));
+      filterBtns[["all", "abstract", "nature", "urban"].indexOf(category)].classList.add('active');
+      const allItems = Array.from(gallery.querySelectorAll('.gallery-item'));
+      allItems.forEach(item => {
+        if (category === 'all' || item.classList.contains(category)) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      lightbox.classList.remove('active');
+      currentIndex = 0;
+    }
+
+    // Get visible images by filter
+    function getVisibleImages() {
+      return Array.from(gallery.querySelectorAll('.gallery-item'))
+        .filter(item => item.style.display !== 'none')
+        .map(item => item.querySelector('img'));
+    }
+
+    // Show the correct image in lightbox
+    function showImage(idx) {
+      const imgs = getVisibleImages();
+      if (imgs.length === 0) return;
+      lightboxImg.src = imgs[idx].src;
+      captionElem.textContent = imgs[idx].alt || '';
+    }
+
+    // Open lightbox on click
+    gallery.addEventListener('click', function(e) {
+      if (!e.target.tagName.match(/img/i)) return;
+      const imgs = getVisibleImages();
+      currentIndex = imgs.indexOf(e.target);
+      lightbox.classList.add('active');
+      showImage(currentIndex);
+    });
+
+    // Prev/Next navigation (filtered)
+    document.body.addEventListener('click', function(e) {
+      if (e.target.id === 'prevBtn') {
+        const imgs = getVisibleImages();
+        currentIndex = (currentIndex - 1 + imgs.length) % imgs.length;
+        lightbox.classList.add('active');
+        showImage(currentIndex);
+      }
+      if (e.target.id === 'nextBtn') {
+        const imgs = getVisibleImages();
+        currentIndex = (currentIndex + 1) % imgs.length;
+        lightbox.classList.add('active');
+        showImage(currentIndex);
+      }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if(!lightbox.classList.contains('active')) return;
+      const imgs = getVisibleImages();
+      if(e.key === 'ArrowLeft') {
+        currentIndex = (currentIndex - 1 + imgs.length) % imgs.length;
+        showImage(currentIndex);
+      }
+      if(e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % imgs.length;
+        showImage(currentIndex);
+      }
+      if(e.key === 'Escape') {
+        lightbox.classList.remove('active');
+      }
+    });
+
+    closeBtn.addEventListener('click', () => {
+      lightbox.classList.remove('active');
+    });
+    lightbox.addEventListener('click', e => {
+      if (e.target === lightbox) lightbox.classList.remove('active');
+    });
+
+    // Set initial to "all"
+    filterGallery('all');
+    window.filterGallery = filterGallery;
+  </script>
+</body>
+</html>
